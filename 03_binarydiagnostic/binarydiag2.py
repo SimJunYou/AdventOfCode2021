@@ -1,33 +1,39 @@
 with open('test.in', 'r') as f:
     arr = f.readlines()
-    length = len(arr)
+    arr = [x.strip() for x in arr]
+    oxy = arr.copy()
+    co2 = arr.copy()
 
-    oxygen = ""
     index = 0
-    while True:
-        counter = 0
-        tempArr = [n for n in arr if oxygen == n[:len(oxygen)]]
-        for each in tempArr:
-            counter += int(each.strip()[index])
+    while len(oxy) > 1:
+        halfLength = len(oxy) // 2
+        isOdd = len(oxy) % 2
+        bitSequence = [int(x[index]) for x in oxy]
+        if sum(bitSequence) == halfLength and not isOdd:
+            mostCommonBit = '1'
+        elif sum(bitSequence) > halfLength:
+            mostCommonBit = '1'
+        else:
+            mostCommonBit = '0'
+        oxy = [x for x in oxy if x[index] == mostCommonBit]
         index += 1
-        oxygen += str(int(counter >= len(tempArr) // 2))
-        if len(tempArr) <= 1:
-            oxygen_val = int(oxygen, 2)
-            break
-
-    co2 = ""
+        print(index-1, oxy)
+    
     index = 0
-    while True:
-        counter = 0
-        tempArr = [n for n in arr if co2 == n[:len(co2)]]
-        for each in tempArr:
-            counter += int(each.strip()[index])
+    print(index-1, co2)
+    while len(co2) > 1:
+        halfLength = len(co2) // 2
+        isOdd = len(co2) % 2
+        bitSequence = [int(x[index]) for x in co2]
+        if sum(bitSequence) == halfLength and not isOdd:
+            leastCommonBit = '0'
+        elif sum(bitSequence) > halfLength:
+            leastCommonBit = '0'
+        else:
+            leastCommonBit = '1'
+        co2 = [x for x in co2 if x[index] == leastCommonBit]
         index += 1
-        co2 += str(int(counter < len(tempArr) // 2))
-        if len(tempArr) <= 1:
-            co2_val = int(co2, 2)
-            break
+        print(index-1, co2)
 
-print(oxygen, co2)
-print(oxygen_val * co2_val)
-        
+print(int(oxy[0], base=2), int(co2[0], base=2))
+print(int(oxy[0], base=2) * int(co2[0], base=2))
